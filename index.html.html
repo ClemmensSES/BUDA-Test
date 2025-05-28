@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Summary Page - SES BUDA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* SES BUDA Branding Colors */
+        .ses-dark-green { background-color: #1A3C34; }
+        .ses-light-green { background-color: #A2D6C6; }
+        .text-ses-dark-green { color: #1A3C34; }
+        .text-ses-light-green { color: #A2D6C6; }
+        .nav-active { background-color: #1A3C34; color: white; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header class="bg-white shadow p-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <img src="https://via.placeholder.com/150x50?text=SECURE+BUDA" alt="SES BUDA Logo" class="h-10 mr-4">
+            <div>
+                <h1 class="text-2xl font-bold text-ses-dark-green">SECURE BUDA</h1>
+                <p class="text-sm text-gray-600">Lemmens Inc., April 2025 Report</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <span class="text-gray-600">Weather: 69.3°F, 65% Humidity</span>
+            <button class="ses-dark-green text-white px-4 py-2 rounded">Logout (clemmens)</button>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="ses-light-green p-4">
+        <ul class="flex space-x-4">
+            <li><a href="#" class="nav-link nav-active px-4 py-2 rounded" data-tab="summary">Summary</a></li>
+            <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="utility-bills">Utility Bills</a></li>
+            <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="interval-data">Interval Data</a></li>
+            <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="documents">Documents</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="p-6">
+        <!-- Summary Tab -->
+        <div id="summary" class="tab-content">
+            <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Client Summary - Lemmens Inc.</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <!-- Bills/Meters Box -->
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg cursor-pointer" onclick="switchTab('utility-bills')">
+                    <div class="flex items-center">
+                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2-12H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2z"></path></svg>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">Bills/Meters (Electric & Gas)</h3>
+                            <p class="text-2xl font-bold text-ses-dark-green">12 Bills / 5 Meters</p>
+                            <p class="text-sm text-gray-600">Electric Usage: 27,235,160 kWh (2025)</p>
+                            <p class="text-sm text-gray-600">Gas Usage: 177,080 therms (Total)</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Utilization Box -->
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg cursor-pointer" onclick="switchTab('interval-data')">
+                    <div class="flex items-center">
+                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">Utilization (CYTD)</h3>
+                            <p class="text-2xl font-bold text-ses-dark-green">5% <span class="text-green-600 text-sm">↑</span></p>
+                            <p class="text-sm text-gray-600">vs 2024 (Click for Details)</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Costs Box -->
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg cursor-pointer" onclick="toggleDetails('costs-details')">
+                    <div class="flex items-center">
+                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 0c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 0c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z"></path></svg>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">Costs (CYTD)</h3>
+                            <p class="text-2xl font-bold text-ses-dark-green">$12,580</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Demand Box -->
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg cursor-pointer" onclick="toggleDetails('demand-details')">
+                    <div class="flex items-center">
+                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">Average Demand (CYTD)</h3>
+                            <p class="text-2xl font-bold text-ses-dark-green">416.5 kW</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Peak Values Box -->
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg cursor-pointer" onclick="toggleDetails('peak-details')">
+                    <div class="flex items-center">
+                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">Peak Load</h3>
+                            <p class="text-2xl font-bold text-ses-dark-green">910 kW</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Bar Chart: Electric Usage by Department -->
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Electric Usage by Department (2025)</h3>
+                <canvas id="electricUsageChart" height="100"></canvas>
+            </div>
+            <!-- Detailed Views for Summary Tab -->
+            <div id="costs-details" class="hidden bg-white p-6 rounded-lg shadow mt-4">
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Cost Breakdown (CYTD)</h3>
+                <p class="text-gray-600 mb-4">Total Costs: $12,580</p>
+                <p class="text-gray-600 mb-4">Breakdown by Address: Public Library ($512.80), Main Office ($5,000)</p>
+                <div class="bg-gray-200 h-48 flex items-center justify-center">Pie Chart Placeholder (CYTD Costs by Commodity)</div>
+            </div>
+            <div id="demand-details" class="hidden bg-white p-6 rounded-lg shadow mt-4">
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Demand Trends (CYTD)</h3>
+                <p class="text-gray-600 mb-4">Average Demand: 416.5 kW</p>
+                <div class="bg-gray-200 h-48 flex items-center justify-center">Line Chart Placeholder (Daily Demand Trends for 2025)</div>
+            </div>
+            <div id="peak-details" class="hidden bg-white p-6 rounded-lg shadow mt-4">
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Peak Load Details</h3>
+                <p class="text-gray-600 mb-4">Peak Load: 910 kW (Mar 2, 2025, 16:50)</p>
+                <p class="text-gray-600 mb-4">vs. Grid Peak: 9,575.6 MW (ISO New England)</p>
+                <div class="bg-gray-200 h-48 flex items-center justify-center">Gauge Chart Placeholder (Building Peaks vs. Grid)</div>
+            </div>
+            <!-- Bill Pay Section -->
+            <div class="bg-white p-6 rounded-lg shadow mt-6">
+                <h2 class="text-xl font-semibold text-ses-dark-green mb-4">Bill Pay & Budgeting (Optional)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-ses-dark-green mb-2">Bill Pay Details</h3>
+                        <p class="text-gray-600">Bills Processed: 10</p>
+                        <p class="text-gray-600">Total Amount Paid: $25,000</p>
+                        <p class="text-gray-600">Last Payment: May 25, 2025</p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-ses-dark-green mb-2">Budget Forecast</h3>
+                        <p class="text-gray-600">Projected Next Month: $30,000</p>
+                        <p class="text-gray-600">Variance: +5% vs Last Month</p>
+                        <div class="bg-gray-200 h-24 flex items-center justify-center mt-2">Bar Chart Placeholder (6-Month Forecast)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Utility Bills Tab -->
+        <div id="utility-bills" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Utility Bills - Lemmens Inc.</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Utility Bills Overview</h3>
+                <p class="text-gray-600">Total Bills: 12</p>
+                <p class="text-gray-600">Total Meters: 5</p>
+                <p class="text-gray-600">CYTD Bills: 257</p>
+                <!-- Department Dropdown -->
+                <div class="mt-4">
+                    <label for="department-select" class="text-ses-dark-green font-semibold">Select Department:</label>
+                    <select id="department-select" class="ml-2 p-2 border rounded" onchange="showDepartmentDetails()">
+                        <option value="">-- Select Department --</option>
+                        <option value="gf">GF (10,157,661 kWh)</option>
+                        <option value="middle-sch">Middle Sch (2,952,873 kWh)</option>
+                        <option value="streetlights">Public Works - Streetlights (2,933,869 kWh)</option>
+                        <option value="public-works">Public Works (1,826,580 kWh)</option>
+                        <option value="fire-dept">Fire Department (1,260,530 kWh)</option>
+                        <option value="elementary-sch">Elementary Sch (935,160 kWh)</option>
+                        <option value="gower-st-sch">Gower St Sch (875,837 kWh)</option>
+                        <option value="poquonock-sch">Poquonock Sch (1,154,040 kWh)</option>
+                        <option value="library">Library (1,015,321 kWh)</option>
+                    </select>
+                </div>
+                <!-- Department Details -->
+                <div id="department-details" class="mt-4 hidden">
+                    <h4 class="text-md font-semibold text-ses-dark-green">Department Usage</h4>
+                    <p id="dept-usage" class="text-gray-600"></p>
+                    <div class="flex space-x-4 mt-2">
+                        <button class="ses-dark-green text-white px-4 py-2 rounded" onclick="toggleDetails('dept-utilization')">View Utilization</button>
+                        <button class="ses-dark-green text-white px-4 py-2 rounded" onclick="toggleDetails('dept-bills')">View Bills</button>
+                    </div>
+                    <div id="dept-utilization" class="hidden mt-4">
+                        <h5 class="text-sm font-semibold text-ses-dark-green">Utilization Trends</h5>
+                        <p class="text-gray-600">Usage (April 2025): 309,505 kWh</p>
+                        <p class="text-gray-600">Usage (April 2024): 318,046 kWh</p>
+                        <p class="text-gray-600">Change: -2.7%</p>
+                        <p class="text-gray-600">Avg Daily Usage (April 2025): 9,984 kWh</p>
+                        <p class="text-gray-600">Avg Daily Usage (April 2024): 10,260 kWh</p>
+                    </div>
+                    <div id="dept-bills" class="hidden mt-4">
+                        <h5 class="text-sm font-semibold text-ses-dark-green">Bill Details</h5>
+                        <p class="text-gray-600">Cost (April 2025): $100,000</p>
+                        <p class="text-gray-600">Cost (April 2024): $110,000</p>
+                        <p class="text-gray-600">Change: -9.1%</p>
+                    </div>
+                </div>
+                <!-- Electric Usage and Cost Trends -->
+                <h4 class="text-md font-semibold text-ses-dark-green mt-6">Electric Usage and Cost Trends</h4>
+                <p class="text-gray-600">Total Usage (2025): 27,235,160 kWh</p>
+                <p class="text-gray-600">April 2025 Usage: 309,505 kWh, Cost: $100,000</p>
+                <p class="text-gray-600">April 2024 Usage: 318,046 kWh, Cost: $110,000</p>
+                <p class="text-gray-600">Usage Change: -2.7%</p>
+                <div class="bg-gray-200 h-48 flex items-center justify-center mt-4">Bar Chart Placeholder (Electric Usage Trend: 2024-2025)</div>
+                <!-- Peak Demand Drill-Down -->
+                <h4 class="text-md font-semibold text-ses-dark-green mt-6">Peak Demand Details</h4>
+                <p class="text-gray-600">Peak Demand (Jan 2025): 894.2 kW</p>
+                <button class="ses-dark-green text-white px-4 py-2 rounded mt-2" onclick="toggleDetails('peak-demand-details')">View Top Peaks</button>
+                <div id="peak-demand-details" class="hidden mt-4">
+                    <p class="text-gray-600">1st Peak: 910 kW (Mar 2, 2025, 16:50)</p>
+                    <p class="text-gray-600">2nd Peak: 905 kW (Mar 5, 2025, 17:50)</p>
+                    <p class="text-gray-600">3rd Peak: 902 kW (Mar 9, 2025, 17:00)</p>
+                    <p class="text-gray-600">4th Peak: 899 kW (Mar 3, 2025, 17:10)</p>
+                    <p class="text-gray-600">5th Peak: 895 kW (Mar 16, 2025, 17:05)</p>
+                </div>
+                <!-- Gas Usage and Cost Trends -->
+                <h4 class="text-md font-semibold text-ses-dark-green mt-6">Gas Usage and Cost Trends</h4>
+                <p class="text-gray-600">Total Usage: 177,080 therms</p>
+                <p class="text-gray-600">Breakdown by Account: GF (16,404 therms), SRP (129,223 therms), TOWNWINDSOR (31,453 therms)</p>
+                <p class="text-gray-600">Cost: [Awaiting Data]</p>
+                <div class="bg-gray-200 h-48 flex items-center justify-center mt-4">Bar Chart Placeholder (Gas Usage Trend: [Awaiting Data])</div>
+                <!-- Other Utilities -->
+                <h4 class="text-md font-semibold text-ses-dark-green mt-6">Other Utilities</h4>
+                <p class="text-gray-600">Water: [Awaiting Data]</p>
+                <p class="text-gray-600">Oil: [Awaiting Data]</p>
+            </div>
+        </div>
+
+        <!-- Interval Data Tab -->
+        <div id="interval-data" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Interval Data - Lemmens Inc.</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Interval Data Overview (Last 7 Days)</h3>
+                <p class="text-gray-600 mb-4">Period: May 21, 2025 - May 27, 2025</p>
+                <p class="text-gray-600 mb-4">Total Energy: 7,240 kW</p>
+                <p class="text-gray-600 mb-4">Average Power: 37.1 kW</p>
+                <div class="bg-gray-200 h-48 flex items-center justify-center mt-4">Line Chart Placeholder (Hourly Usage: Avg, Min, Max)</div>
+                <div class="mt-6">
+                    <h4 class="text-md font-semibold text-ses-dark-green mb-2">Key Metrics</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <p class="text-gray-600">Min Power: 11.0 kW</p>
+                            <p class="text-gray-600">Max Power: 132.4 kW</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Duration: 168 hours</p>
+                            <p class="text-gray-600">Avg Temp: 69.3°F</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Utilization Change (CYTD): 5% ↑ vs 2024</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <h4 class="text-md font-semibold text-ses-dark-green mb-2">Usage Breakdown</h4>
+                    <div class="flex space-x-4">
+                        <button class="ses-dark-green text-white px-4 py-2 rounded" onclick="toggleDetails('usage-part-of-day')">By Part of Day</button>
+                        <button class="ses-dark-green text-white px-4 py-2 rounded" onclick="toggleDetails('usage-hour-of-day')">By Hour of Day</button>
+                    </div>
+                    <div id="usage-part-of-day" class="hidden mt-4">
+                        <p class="text-gray-600">Midnight-Fam: 6.6 kW</p>
+                        <p class="text-gray-600">Am-Peak: 49.8 kW</p>
+                        <p class="text-gray-600">Noon-Mid: 35.2 kW</p>
+                        <p class="text-gray-600">Pm-Peak: 45.3 kW</p>
+                    </div>
+                    <div id="usage-hour-of-day" class="hidden mt-4">
+                        <p class="text-gray-600">Hour 00: 6.0 kW</p>
+                        <p class="text-gray-600">Hour 12: 47.0 kW</p>
+                        <p class="text-gray-600">Full hourly data available upon request.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents Tab -->
+        <div id="documents" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Documents - Lemmens Inc.</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <p class="text-gray-600">No documents available at this time.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript for Tab Switching, Details Toggling, and Chart -->
+    <script>
+        function switchTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const navLinks = document.querySelectorAll('.nav-link');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+            navLinks.forEach(link => link.classList.remove('nav-active'));
+            document.getElementById(tabId).classList.remove('hidden');
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('nav-active');
+        }
+
+        function toggleDetails(sectionId) {
+            const section = document.getElementById(sectionId);
+            const allSections = document.querySelectorAll('.bg-white.p-6.rounded-lg.shadow .hidden');
+            allSections.forEach(sec => sec.classList.add('hidden'));
+            section.classList.toggle('hidden');
+        }
+
+        function showDepartmentDetails() {
+            const select = document.getElementById('department-select');
+            const deptDetails = document.getElementById('department-details');
+            const deptUsage = document.getElementById('dept-usage');
+            const value = select.value;
+
+            if (value) {
+                const usageMap = {
+                    'gf': '10,157,661 kWh',
+                    'middle-sch': '2,952,873 kWh',
+                    'streetlights': '2,933,869 kWh',
+                    'public-works': '1,826,580 kWh',
+                    'fire-dept': '1,260,530 kWh',
+                    'elementary-sch': '935,160 kWh',
+                    'gower-st-sch': '875,837 kWh',
+                    'poquonock-sch': '1,154,040 kWh',
+                    'library': '1,015,321 kWh'
+                };
+                deptUsage.textContent = `Usage (2025): ${usageMap[value]}`;
+                deptDetails.classList.remove('hidden');
+            } else {
+                deptDetails.classList.add('hidden');
+            }
+        }
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchTab(link.getAttribute('data-tab'));
+            });
+        });
+
+        // Bar Chart for Electric Usage by Department
+        const ctx = document.getElementById('electricUsageChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['GF', 'Middle Sch', 'Streetlights', 'Public Works', 'Fire Dept', 'Elementary Sch', 'Gower St Sch', 'Poquonock Sch', 'Library'],
+                datasets: [{
+                    label: 'Electric Usage (kWh)',
+                    data: [10157661, 2952873, 2933869, 1826580, 1260530, 935160, 875837, 1154040, 1015321],
+                    backgroundColor: '#1A3C34',
+                    borderColor: '#A2D6C6',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Usage (kWh)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return (value / 1000000) + 'M';
+                            }
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Department'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
