@@ -7,12 +7,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* SES BUDA Branding Colors */
         .ses-dark-green { background-color: #1A3C34; }
         .ses-light-green { background-color: #A2D6C6; }
         .text-ses-dark-green { color: #1A3C34; }
         .text-ses-light-green { color: #A2D6C6; }
         .nav-active { background-color: #1A3C34; color: white; }
+        .drilldown-icon { width: 16px; height: 16px; margin-left: 4px; }
+        .whiteout { position: absolute; background: white; color: white; }
+        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 20px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #1A3C34; }
+        input:checked + .slider:before { transform: translateX(20px); }
+        input:disabled + .slider { background-color: #e5e7eb; }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -37,7 +45,8 @@
             <li><a href="#" class="nav-link nav-active px-4 py-2 rounded" data-tab="summary">Summary</a></li>
             <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="utility-bills">Utility Bills</a></li>
             <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="interval-data">Interval Data</a></li>
-            <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="documents">Documents</a></li>
+            <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="contracts">Contracts</a></li>
+            <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="additional-services">Additional Services</a></li>
         </ul>
     </nav>
 
@@ -46,99 +55,150 @@
         <!-- Summary Tab -->
         <div id="summary" class="tab-content">
             <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Client Summary - Lemmens Inc.</h2>
+            <!-- Commodity Selection -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-2">Contracted Commodities:</h3>
+                <div class="flex space-x-6">
+                    <div class="flex items-center">
+                        <span class="mr-2">Electricity:</span>
+                        <label class="switch">
+                            <input type="checkbox" checked disabled>
+                            <span class="slider"></span>
+                        </label>
+                        <span class="ml-2 text-ses-dark-green">ON</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2">Gas:</span>
+                        <label class="switch">
+                            <input type="checkbox" checked disabled>
+                            <span class="slider"></span>
+                        </label>
+                        <span class="ml-2 text-ses-dark-green">ON</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2">Water:</span>
+                        <label class="switch">
+                            <input type="checkbox" disabled>
+                            <span class="slider"></span>
+                        </label>
+                        <span class="ml-2 text-gray-400">OFF</span>
+                    </div>
+                </div>
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <!-- Bills/Meters Box -->
                 <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg cursor-pointer" onclick="switchTab('utility-bills')">
                     <div class="flex items-center">
-                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2-12H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2z"></path></svg>
+                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2-12H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2z"></path></svg>
                         <div>
                             <h3 class="text-lg font-semibold text-gray-800">Bills/Meters (Electric & Gas)</h3>
-                            <p class="text-2xl font-bold text-ses-dark-green">12 Bills / 5 Meters</p>
+                            <p class="text-2xl font-bold text-ses-dark-green flex items-center">
+                                12 Bills / 5 Meters
+                                <svg class="drilldown-icon text-ses-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </p>
                             <p class="text-sm text-gray-600">Electric Usage: 27,235,160 kWh (2025)</p>
                             <p class="text-sm text-gray-600">Gas Usage: 177,080 therms (Total)</p>
                         </div>
                     </div>
                 </div>
-                <!-- Utilization Box -->
                 <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg cursor-pointer" onclick="switchTab('interval-data')">
                     <div class="flex items-center">
-                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-800">Utilization (CYTD)</h3>
-                            <p class="text-2xl font-bold text-ses-dark-green">5% <span class="text-green-600 text-sm">↑</span></p>
-                            <p class="text-sm text-gray-600">vs 2024 (Click for Details)</p>
+                            <h3 class="text-lg font-semibold text-gray-800">Utilization Year to Date (CYTD)</h3>
+                            <p class="text-2xl font-bold text-ses-dark-green flex items-center">
+                                5% <span class="text-green-600 text-sm">↑</span>
+                                <svg class="drilldown-icon text-ses-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </p>
+                            <p class="text-sm text-gray-600">vs 2024</p>
                         </div>
                     </div>
                 </div>
-                <!-- Costs Box -->
                 <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg cursor-pointer" onclick="toggleDetails('costs-details')">
                     <div class="flex items-center">
-                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 0c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 0c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z"></path></svg>
+                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 0c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 0c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z"></path></svg>
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-800">Costs (CYTD)</h3>
-                            <p class="text-2xl font-bold text-ses-dark-green">$12,580</p>
+                            <h3 class="text-lg font-semibold text-gray-800">Costs Year to Date (CYTD)</h3>
+                            <p class="text-2xl font-bold text-ses-dark-green flex items-center">
+                                $12,580
+                                <svg class="drilldown-icon text-ses-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </p>
                         </div>
                     </div>
                 </div>
-                <!-- Demand Box -->
                 <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg cursor-pointer" onclick="toggleDetails('demand-details')">
                     <div class="flex items-center">
-                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-800">Average Demand (CYTD)</h3>
-                            <p class="text-2xl font-bold text-ses-dark-green">416.5 kW</p>
+                            <h3 class="text-lg font-semibold text-gray-800">Average Demand Year to Date (CYTD)</h3>
+                            <p class="text-2xl font-bold text-ses-dark-green flex items-center">
+                                416.5 kW
+                                <svg class="drilldown-icon text-ses-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </p>
                         </div>
                     </div>
                 </div>
-                <!-- Peak Values Box -->
                 <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg cursor-pointer" onclick="toggleDetails('peak-details')">
                     <div class="flex items-center">
-                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                        <svg class="w-8 h-8 text-ses-dark-green mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-800">Peak Load</h3>
-                            <p class="text-2xl font-bold text-ses-dark-green">910 kW</p>
+                            <h3 class="text-lg font-semibold text-gray-800">Peak Load Year to Date (CYTD)</h3>
+                            <p class="text-2xl font-bold text-ses-dark-green flex items-center">
+                                910 kW
+                                <svg class="drilldown-icon text-ses-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Bar Chart: Electric Usage by Department -->
             <div class="bg-white p-6 rounded-lg shadow mb-6">
-                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Electric Usage by Department (2025)</h3>
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Electric Usage by Department Year to Date (2025)</h3>
                 <canvas id="electricUsageChart" height="100"></canvas>
             </div>
             <!-- Detailed Views for Summary Tab -->
             <div id="costs-details" class="hidden bg-white p-6 rounded-lg shadow mt-4">
-                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Cost Breakdown (CYTD)</h3>
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Cost Breakdown Year to Date (CYTD)</h3>
                 <p class="text-gray-600 mb-4">Total Costs: $12,580</p>
                 <p class="text-gray-600 mb-4">Breakdown by Address: Public Library ($512.80), Main Office ($5,000)</p>
                 <div class="bg-gray-200 h-48 flex items-center justify-center">Pie Chart Placeholder (CYTD Costs by Commodity)</div>
             </div>
             <div id="demand-details" class="hidden bg-white p-6 rounded-lg shadow mt-4">
-                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Demand Trends (CYTD)</h3>
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Demand Trends Year to Date (CYTD)</h3>
                 <p class="text-gray-600 mb-4">Average Demand: 416.5 kW</p>
                 <div class="bg-gray-200 h-48 flex items-center justify-center">Line Chart Placeholder (Daily Demand Trends for 2025)</div>
             </div>
             <div id="peak-details" class="hidden bg-white p-6 rounded-lg shadow mt-4">
-                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Peak Load Details</h3>
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Peak Load Details Year to Date (CYTD)</h3>
                 <p class="text-gray-600 mb-4">Peak Load: 910 kW (Mar 2, 2025, 16:50)</p>
                 <p class="text-gray-600 mb-4">vs. Grid Peak: 9,575.6 MW (ISO New England)</p>
                 <div class="bg-gray-200 h-48 flex items-center justify-center">Gauge Chart Placeholder (Building Peaks vs. Grid)</div>
             </div>
-            <!-- Bill Pay Section -->
+            <!-- Bill Pay & Budgeting Section -->
             <div class="bg-white p-6 rounded-lg shadow mt-6">
-                <h2 class="text-xl font-semibold text-ses-dark-green mb-4">Bill Pay & Budgeting (Optional)</h2>
+                <h2 class="text-xl font-semibold text-ses-dark-green mb-4">Bill Pay & Budgeting Year to Date (CYTD) (Optional)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <h3 class="text-lg font-semibold text-ses-dark-green mb-2">Bill Pay Details</h3>
-                        <p class="text-gray-600">Bills Processed: 10</p>
+                        <p class="text-gray-600">Bills Processed: 12</p>
                         <p class="text-gray-600">Total Amount Paid: $25,000</p>
                         <p class="text-gray-600">Last Payment: May 25, 2025</p>
+                        <h4 class="text-md font-semibold text-ses-dark-green mt-4">Payment Status (Last 6 Months)</h4>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="p-2 bg-gray-100">Nov 2024: On Time (11/15/2024)</div>
+                            <div class="p-2 bg-gray-100">Dec 2024: Late (12/20/2024)</div>
+                            <div class="p-2 bg-gray-100">Jan 2025: On Time (01/10/2025)</div>
+                            <div class="p-2 bg-gray-100">Feb 2025: On Time (02/12/2025)</div>
+                            <div class="p-2 bg-gray-100">Mar 2025: Late (03/18/2025)</div>
+                            <div class="p-2 bg-gray-100">Apr 2025: On Time (04/10/2025)</div>
+                        </div>
                     </div>
                     <div>
-                        <h3 class="text-lg font-semibold text-ses-dark-green mb-2">Budget Forecast</h3>
+                        <h3 class="text-lg font-semibold text-ses-dark-green mb-2">Budget Forecast Year to Date (CYTD)</h3>
                         <p class="text-gray-600">Projected Next Month: $30,000</p>
                         <p class="text-gray-600">Variance: +5% vs Last Month</p>
-                        <div class="bg-gray-200 h-24 flex items-center justify-center mt-2">Bar Chart Placeholder (6-Month Forecast)</div>
+                        <div class="bg-white p-4 rounded-lg shadow mt-2">
+                            <canvas id="budgetForecastChart" height="100"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -148,15 +208,14 @@
         <div id="utility-bills" class="tab-content hidden">
             <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Utility Bills - Lemmens Inc.</h2>
             <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Utility Bills Overview</h3>
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Utility Bills Overview Year to Date (CYTD)</h3>
                 <p class="text-gray-600">Total Bills: 12</p>
                 <p class="text-gray-600">Total Meters: 5</p>
                 <p class="text-gray-600">CYTD Bills: 257</p>
-                <!-- Department Dropdown -->
                 <div class="mt-4">
-                    <label for="department-select" class="text-ses-dark-green font-semibold">Select Department:</label>
-                    <select id="department-select" class="ml-2 p-2 border rounded" onchange="showDepartmentDetails()">
-                        <option value="">-- Select Department --</option>
+                    <label for="account-select" class="text-ses-dark-green font-semibold">Account Dropdown:</label>
+                    <select id="account-select" class="ml-2 p-2 border rounded" onchange="showAccountDetails()">
+                        <option value="">-- Select Account --</option>
                         <option value="gf">GF (10,157,661 kWh)</option>
                         <option value="middle-sch">Middle Sch (2,952,873 kWh)</option>
                         <option value="streetlights">Public Works - Streetlights (2,933,869 kWh)</option>
@@ -168,40 +227,52 @@
                         <option value="library">Library (1,015,321 kWh)</option>
                     </select>
                 </div>
-                <!-- Department Details -->
-                <div id="department-details" class="mt-4 hidden">
-                    <h4 class="text-md font-semibold text-ses-dark-green">Department Usage</h4>
-                    <p id="dept-usage" class="text-gray-600"></p>
+                <div id="account-details" class="mt-4 hidden">
+                    <h4 class="text-md font-semibold text-ses-dark-green">Account Usage Year to Date (CYTD)</h4>
+                    <p id="account-usage" class="text-gray-600"></p>
                     <div class="flex space-x-4 mt-2">
-                        <button class="ses-dark-green text-white px-4 py-2 rounded" onclick="toggleDetails('dept-utilization')">View Utilization</button>
-                        <button class="ses-dark-green text-white px-4 py-2 rounded" onclick="toggleDetails('dept-bills')">View Bills</button>
+                        <button class="ses-dark-green text-white px-4 py-2 rounded flex items-center" onclick="toggleDetails('account-utilization')">
+                            View Utilization Year to Date (CYTD)
+                            <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <button class="ses-dark-green text-white px-4 py-2 rounded flex items-center" onclick="toggleDetails('account-bills')">
+                            View Bills Year to Date (CYTD)
+                            <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
                     </div>
-                    <div id="dept-utilization" class="hidden mt-4">
-                        <h5 class="text-sm font-semibold text-ses-dark-green">Utilization Trends</h5>
+                    <div id="account-utilization" class="hidden mt-4">
+                        <h5 class="text-sm font-semibold text-ses-dark-green">Utilization Trends Year to Date (CYTD)</h5>
                         <p class="text-gray-600">Usage (April 2025): 309,505 kWh</p>
                         <p class="text-gray-600">Usage (April 2024): 318,046 kWh</p>
                         <p class="text-gray-600">Change: -2.7%</p>
                         <p class="text-gray-600">Avg Daily Usage (April 2025): 9,984 kWh</p>
                         <p class="text-gray-600">Avg Daily Usage (April 2024): 10,260 kWh</p>
                     </div>
-                    <div id="dept-bills" class="hidden mt-4">
-                        <h5 class="text-sm font-semibold text-ses-dark-green">Bill Details</h5>
+                    <div id="account-bills" class="hidden mt-4">
+                        <h5 class="text-sm font-semibold text-ses-dark-green">Bill Details Year to Date (CYTD)</h5>
                         <p class="text-gray-600">Cost (April 2025): $100,000</p>
                         <p class="text-gray-600">Cost (April 2024): $110,000</p>
                         <p class="text-gray-600">Change: -9.1%</p>
                     </div>
                 </div>
-                <!-- Electric Usage and Cost Trends -->
-                <h4 class="text-md font-semibold text-ses-dark-green mt-6">Electric Usage and Cost Trends</h4>
+                <h4 class="text-md font-semibold text-ses-dark-green mt-6">Electric Usage and Cost Trends Year to Date (CYTD)</h4>
                 <p class="text-gray-600">Total Usage (2025): 27,235,160 kWh</p>
                 <p class="text-gray-600">April 2025 Usage: 309,505 kWh, Cost: $100,000</p>
                 <p class="text-gray-600">April 2024 Usage: 318,046 kWh, Cost: $110,000</p>
                 <p class="text-gray-600">Usage Change: -2.7%</p>
-                <div class="bg-gray-200 h-48 flex items-center justify-center mt-4">Bar Chart Placeholder (Electric Usage Trend: 2024-2025)</div>
-                <!-- Peak Demand Drill-Down -->
-                <h4 class="text-md font-semibold text-ses-dark-green mt-6">Peak Demand Details</h4>
+                <div class="bg-white p-4 rounded-lg shadow mt-2 relative">
+                    <canvas id="electricTrendChart" height="100"></canvas>
+                    <div class="whiteout text-center w-full mt-2">Note: 2% increase from 2024-2025</div>
+                </div>
+                <h4 class="text-md font-semibold text-ses-dark-green mt-6 flex items-center">
+                    Peak Demand Details Year to Date (CYTD)
+                    <svg class="drilldown-icon text-ses-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </h4>
                 <p class="text-gray-600">Peak Demand (Jan 2025): 894.2 kW</p>
-                <button class="ses-dark-green text-white px-4 py-2 rounded mt-2" onclick="toggleDetails('peak-demand-details')">View Top Peaks</button>
+                <button class="ses-dark-green text-white px-4 py-2 rounded mt-2 flex items-center" onclick="toggleDetails('peak-demand-details')">
+                    View Top Peaks
+                    <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
                 <div id="peak-demand-details" class="hidden mt-4">
                     <p class="text-gray-600">1st Peak: 910 kW (Mar 2, 2025, 16:50)</p>
                     <p class="text-gray-600">2nd Peak: 905 kW (Mar 5, 2025, 17:50)</p>
@@ -209,16 +280,14 @@
                     <p class="text-gray-600">4th Peak: 899 kW (Mar 3, 2025, 17:10)</p>
                     <p class="text-gray-600">5th Peak: 895 kW (Mar 16, 2025, 17:05)</p>
                 </div>
-                <!-- Gas Usage and Cost Trends -->
-                <h4 class="text-md font-semibold text-ses-dark-green mt-6">Gas Usage and Cost Trends</h4>
+                <h4 class="text-md font-semibold text-ses-dark-green mt-6">Gas Usage and Cost Trends Year to Date (CYTD)</h4>
                 <p class="text-gray-600">Total Usage: 177,080 therms</p>
                 <p class="text-gray-600">Breakdown by Account: GF (16,404 therms), SRP (129,223 therms), TOWNWINDSOR (31,453 therms)</p>
-                <p class="text-gray-600">Cost: [Awaiting Data]</p>
-                <div class="bg-gray-200 h-48 flex items-center justify-center mt-4">Bar Chart Placeholder (Gas Usage Trend: [Awaiting Data])</div>
-                <!-- Other Utilities -->
-                <h4 class="text-md font-semibold text-ses-dark-green mt-6">Other Utilities</h4>
-                <p class="text-gray-600">Water: [Awaiting Data]</p>
-                <p class="text-gray-600">Oil: [Awaiting Data]</p>
+                <p class="text-gray-600">Estimated Cost: $177,080 (at $1.00/therm, estimate)</p>
+                <div class="bg-white p-4 rounded-lg shadow mt-2 relative">
+                    <canvas id="gasTrendChart" height="100"></canvas>
+                    <div class="whiteout text-center w-full mt-2">Note: Estimated at $1.00/therm</div>
+                </div>
             </div>
         </div>
 
@@ -226,13 +295,14 @@
         <div id="interval-data" class="tab-content hidden">
             <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Interval Data - Lemmens Inc.</h2>
             <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Interval Data Overview (Last 7 Days)</h3>
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Interval Data Overview Year to Date (CYTD) (Last 7 Days)</h3>
                 <p class="text-gray-600 mb-4">Period: May 21, 2025 - May 27, 2025</p>
                 <p class="text-gray-600 mb-4">Total Energy: 7,240 kW</p>
-                <p class="text-gray-600 mb-4">Average Power: 37.1 kW</p>
-                <div class="bg-gray-200 h-48 flex items-center justify-center mt-4">Line Chart Placeholder (Hourly Usage: Avg, Min, Max)</div>
+                <div class="bg-white p-4 rounded-lg shadow mt-2">
+                    <canvas id="intervalChart" height="100"></canvas>
+                </div>
                 <div class="mt-6">
-                    <h4 class="text-md font-semibold text-ses-dark-green mb-2">Key Metrics</h4>
+                    <h4 class="text-md font-semibold text-ses-dark-green mb-2">Key Metrics Year to Date (CYTD)</h4>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <p class="text-gray-600">Min Power: 11.0 kW</p>
@@ -243,15 +313,24 @@
                             <p class="text-gray-600">Avg Temp: 69.3°F</p>
                         </div>
                         <div>
-                            <p class="text-gray-600">Utilization Change (CYTD): 5% ↑ vs 2024</p>
+                            <p class="text-gray-600">Utilization Change Year to Date (CYTD): 5% ↑ vs 2024</p>
                         </div>
                     </div>
                 </div>
                 <div class="mt-6">
-                    <h4 class="text-md font-semibold text-ses-dark-green mb-2">Usage Breakdown</h4>
+                    <h4 class="text-md font-semibold text-ses-dark-green mb-2 flex items-center">
+                        Usage Breakdown Year to Date (CYTD)
+                        <svg class="drilldown-icon text-ses-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </h4>
                     <div class="flex space-x-4">
-                        <button class="ses-dark-green text-white px-4 py-2 rounded" onclick="toggleDetails('usage-part-of-day')">By Part of Day</button>
-                        <button class="ses-dark-green text-white px-4 py-2 rounded" onclick="toggleDetails('usage-hour-of-day')">By Hour of Day</button>
+                        <button class="ses-dark-green text-white px-4 py-2 rounded flex items-center" onclick="toggleDetails('usage-part-of-day')">
+                            By Part of Day Year to Date (CYTD)
+                            <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <button class="ses-dark-green text-white px-4 py-2 rounded flex items-center" onclick="toggleDetails('usage-hour-of-day')">
+                            By Hour of Day Year to Date (CYTD)
+                            <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
                     </div>
                     <div id="usage-part-of-day" class="hidden mt-4">
                         <p class="text-gray-600">Midnight-Fam: 6.6 kW</p>
@@ -268,16 +347,257 @@
             </div>
         </div>
 
-        <!-- Documents Tab -->
-        <div id="documents" class="tab-content hidden">
-            <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Documents - Lemmens Inc.</h2>
+        <!-- Contracts Tab -->
+        <div id="contracts" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Contracts - Lemmens Inc.</h2>
             <div class="bg-white p-6 rounded-lg shadow">
-                <p class="text-gray-600">No documents available at this time.</p>
+                <button class="ses-dark-green text-white px-4 py-2 rounded mb-4" onclick="toggleDetails('contracts-details')">Contracts Button</button>
+                <div id="contracts-details" class="hidden">
+                    <div class="bg-gray-200 p-4 rounded-lg mb-4">
+                        <h3 class="text-lg font-semibold text-ses-dark-green">SES HQ</h3>
+                        <p class="text-sm text-gray-600">East Longmeadow, MA</p>
+                        <div class="flex space-x-4 mb-2">
+                            <button class="bg-gray-300 text-black px-2 py-1 rounded">Summary</button>
+                            <button class="bg-gray-300 text-black px-2 py-1 rounded">Utility Bills</button>
+                            <button class="bg-gray-300 text-black px-2 py-1 rounded">Interval Data</button>
+                            <button class="bg-gray-300 text-black px-2 py-1 rounded">Documents</button>
+                        </div>
+                        <div class="flex space-x-4 mb-2">
+                            <button class="bg-green-600 text-white px-2 py-1 rounded">Operating Reports</button>
+                            <button class="bg-green-600 text-white px-2 py-1 rounded">Contracts</button>
+                            <button class="bg-green-600 text-white px-2 py-1 rounded">Energy Efficiency</button>
+                            <button class="bg-green-600 text-white px-2 py-1 rounded">Bill Uploader</button>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <select class="p-1 border rounded">
+                                <option>ALL</option>
+                                <option>Archived</option>
+                                <option>Current</option>
+                            </select>
+                            <input type="text" placeholder="Search:" class="p-1 border rounded">
+                        </div>
+                        <table class="w-full mt-2">
+                            <thead>
+                                <tr class="bg-gray-300">
+                                    <th>COMMODITY</th>
+                                    <th>TYPE</th>
+                                    <th>ACCOUNTS</th>
+                                    <th>DOCUMENT NAME</th>
+                                    <th>CONTRACT DATES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Electric</td>
+                                    <td>Fixed ($0.079/kWh)</td>
+                                    <td>1370-18064</td>
+                                    <td><a href="#">report-001-sessecurehq_2020-2020-version-1.pdf</a> <span class="text-red-500">⚠</span></td>
+                                    <td>04/01/2019 - 11/30/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>Electric</td>
+                                    <td>Fixed ($0.045/kWh)</td>
+                                    <td>1370-18064</td>
+                                    <td><a href="#">report-001-sessecurehq_2020-2020-version-2.pdf</a></td>
+                                    <td>01/01/2017 - 12/31/2019</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="flex justify-between mt-2">
+                            <span>Showing 1 to 2 of 2 entries</span>
+                            <div>
+                                <button class="bg-green-600 text-white px-2 py-1 rounded">Previous</button>
+                                <span>1</span>
+                                <button class="bg-green-600 text-white px-2 py-1 rounded">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="ses-dark-green text-white px-4 py-2 rounded mb-4" onclick="toggleDetails('reports-details')">Reports</button>
+                <div id="reports-details" class="hidden">
+                    <div class="bg-gray-200 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-ses-dark-green">SES HQ</h3>
+                        <p class="text-sm text-gray-600">East Longmeadow, MA</p>
+                        <div class="flex space-x-4 mb-2">
+                            <button class="bg-green-600 text-white px-2 py-1 rounded">Summary</button>
+                            <button class="bg-green-600 text-white px-2 py-1 rounded">Utility Bills</button>
+                            <button class="bg-green-600 text-white px-2 py-1 rounded">Interval Data</button>
+                            <button class="bg-green-600 text-white px-2 py-1 rounded">Documents</button>
+                        </div>
+                        <table class="w-full mt-2">
+                            <thead>
+                                <tr class="bg-gray-300">
+                                    <th>REPORT NAME</th>
+                                    <th>SIZE (KB)</th>
+                                    <th>CREATED (RUNTIME MIN:SEC)</th>
+                                    <th>PAGES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href="#">report-001-sessecurehq (Standard Utility Bill Detail Year-To-Date, Adobe PDF format)</a></td>
+                                    <td>0.0</td>
+                                    <td>2025/04/30, 09:51 Wed (00:00)</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">report-003-sessecurehq (Metered Interval Data Reports)</a></td>
+                                    <td>324.2</td>
+                                    <td>2025/04/30, 09:27 Wed (00:12)</td>
+                                    <td>3</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="flex justify-between mt-2">
+                            <span>Showing 1 to 2 of 2 entries</span>
+                            <div>
+                                <button class="bg-green-600 text-white px-2 py-1 rounded">Previous</button>
+                                <span>1</span>
+                                <button class="bg-green-600 text-white px-2 py-1 rounded">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Services Tab -->
+        <div id="additional-services" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Additional Services - Lemmens Inc.</h2>
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Service Options</h3>
+                <div class="flex space-x-6 mb-4">
+                    <div class="flex items-center">
+                        <span class="mr-2">Bill Pay:</span>
+                        <label class="switch">
+                            <input type="checkbox" checked disabled>
+                            <span class="slider"></span>
+                        </label>
+                        <span class="ml-2 text-ses-dark-green">ON</span>
+                        <a href="#summary" class="ml-4 text-ses-dark-green underline" onclick="switchTab('summary')">View Bill Pay Data</a>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2">Interval Meters:</span>
+                        <label class="switch">
+                            <input type="checkbox" disabled>
+                            <span class="slider"></span>
+                        </label>
+                        <span class="ml-2 text-gray-400">OFF</span>
+                        <a href="#interval-data" class="ml-4 text-ses-dark-green underline" onclick="switchTab('interval-data')">View Interval Data</a>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2">Third Party Audit:</span>
+                        <span class="ml-2 text-gray-400">Coming Soon</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Notifications Service Options -->
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Notifications Service Options</h3>
+                <div class="mb-4">
+                    <h4 class="text-md font-semibold text-ses-dark-green mb-2">Communication Preferences</h4>
+                    <div class="flex space-x-4 mb-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" checked class="mr-2">
+                            <span>Text</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" checked class="mr-2">
+                            <span>Email</span>
+                        </label>
+                    </div>
+                    <div class="flex space-x-4 mb-2">
+                        <div>
+                            <label class="block text-sm">First Name</label>
+                            <input type="text" value="Clemmens" class="border rounded p-1 w-32" readonly>
+                        </div>
+                        <div>
+                            <label class="block text-sm">Last Name</label>
+                            <input type="text" value="Lemmens" class="border rounded p-1 w-32" readonly>
+                        </div>
+                        <div>
+                            <label class="block text-sm">Phone Number</label>
+                            <div class="flex items-center">
+                                <input type="text" value="111-111-1111" class="border rounded p-1 w-32" readonly>
+                                <button class="ml-2 text-ses-dark-green">+</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm">Email</label>
+                            <div class="flex items-center">
+                                <input type="email" value="clemmens@sesenergy.org" class="border rounded p-1 w-48" readonly>
+                                <button class="ml-2 text-ses-dark-green">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <h4 class="text-md font-semibold text-ses-dark-green mb-2">Notification Types</h4>
+                    <div class="flex space-x-6 mb-2">
+                        <div class="flex items-center">
+                            <span class="mr-2">Peak Alerts:</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span class="ml-2 text-ses-dark-green">ON</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="mr-2">Monthly Usage Summary:</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span class="ml-2 text-ses-dark-green">ON</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="mr-2">ISO Alerts:</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span class="ml-2 text-ses-dark-green">ON</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <h4 class="text-md font-semibold text-ses-dark-green mb-2">Delivery Schedule</h4>
+                    <div class="flex space-x-4">
+                        <label class="flex items-center">
+                            <input type="radio" name="delivery" value="at-time" class="mr-2">
+                            <span>Deliver at Time</span>
+                            <input type="time" class="ml-2 border rounded p-1" value="15:28">
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="delivery" value="by-time" class="mr-2">
+                            <span>Deliver by Time</span>
+                            <input type="time" class="ml-2 border rounded p-1" value="15:28">
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="delivery" value="end-of-day" class="mr-2">
+                            <span>Save Until End of Day</span>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-md font-semibold text-ses-dark-green mb-2">Sample Notification</h4>
+                    <a href="#" class="text-ses-dark-green underline" onclick="toggleDetails('sample-notification')">View Sample Notification (Text & Email)</a>
+                    <div id="sample-notification" class="hidden mt-4">
+                        <h5 class="text-sm font-semibold text-ses-dark-green">Sample Notification (Text & Email)</h5>
+                        <p class="text-gray-600">**Peak Alert Notification**</p>
+                        <p class="text-gray-600">Date: June 02, 2025</p>
+                        <p class="text-gray-600">Time: 15:28 PM EDT</p>
+                        <p class="text-gray-600">Message: Peak Load Alert for Lemmens Inc. - Current Load: 910 kW at 15:28 on Mar 2, 2025. Please review your energy usage.</p>
+                        <p class="text-gray-600">Sent to: Clemmens Lemmens</p>
+                        <p class="text-gray-600">Phone: 111-111-1111</p>
+                        <p class="text-gray-600">Email: clemmens@sesenergy.org</p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <!-- JavaScript for Tab Switching, Details Toggling, and Chart -->
+    <!-- JavaScript for Tab Switching, Details Toggling, and Charts -->
     <script>
         function switchTab(tabId) {
             const tabs = document.querySelectorAll('.tab-content');
@@ -295,10 +615,10 @@
             section.classList.toggle('hidden');
         }
 
-        function showDepartmentDetails() {
-            const select = document.getElementById('department-select');
-            const deptDetails = document.getElementById('department-details');
-            const deptUsage = document.getElementById('dept-usage');
+        function showAccountDetails() {
+            const select = document.getElementById('account-select');
+            const accountDetails = document.getElementById('account-details');
+            const accountUsage = document.getElementById('account-usage');
             const value = select.value;
 
             if (value) {
@@ -313,10 +633,10 @@
                     'poquonock-sch': '1,154,040 kWh',
                     'library': '1,015,321 kWh'
                 };
-                deptUsage.textContent = `Usage (2025): ${usageMap[value]}`;
-                deptDetails.classList.remove('hidden');
+                accountUsage.textContent = `Usage Year to Date (2025): ${usageMap[value]}`;
+                accountDetails.classList.remove('hidden');
             } else {
-                deptDetails.classList.add('hidden');
+                accountDetails.classList.add('hidden');
             }
         }
 
@@ -328,13 +648,13 @@
         });
 
         // Bar Chart for Electric Usage by Department
-        const ctx = document.getElementById('electricUsageChart').getContext('2d');
-        new Chart(ctx, {
+        const ctxElectric = document.getElementById('electricUsageChart').getContext('2d');
+        new Chart(ctxElectric, {
             type: 'bar',
             data: {
                 labels: ['GF', 'Middle Sch', 'Streetlights', 'Public Works', 'Fire Dept', 'Elementary Sch', 'Gower St Sch', 'Poquonock Sch', 'Library'],
                 datasets: [{
-                    label: 'Electric Usage (kWh)',
+                    label: 'Electric Usage Year to Date (kWh)',
                     data: [10157661, 2952873, 2933869, 1826580, 1260530, 935160, 875837, 1154040, 1015321],
                     backgroundColor: '#1A3C34',
                     borderColor: '#A2D6C6',
@@ -342,32 +662,74 @@
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Usage (kWh)'
-                        },
-                        ticks: {
-                            callback: function(value) {
-                                return (value / 1000000) + 'M';
-                            }
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Department'
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'Usage (kWh)' }, ticks: { callback: value => (value / 1000000) + 'M' } }, x: { title: { display: true, text: 'Department' } } },
+                plugins: { legend: { display: false } }
             }
+        });
+
+        // Budget Forecast Chart
+        const ctxBudget = document.getElementById('budgetForecastChart').getContext('2d');
+        const baseBudget = 30000;
+        const months = ['May 2025', 'Jun 2025', 'Jul 2025', 'Aug 2025', 'Sep 2025', 'Oct 2025'];
+        const dataBudget = months.map((month, index) => {
+            let variance = 1 + (Math.random() * 0.02 - 0.01);
+            return Math.round(baseBudget * variance * Math.pow(1 + (index * 0.01), index));
+        });
+        new Chart(ctxBudget, {
+            type: 'bar',
+            data: { labels: months, datasets: [{ label: 'Budget Forecast ($)', data: dataBudget, backgroundColor: '#1A3C34', borderColor: '#A2D6C6', borderWidth: 1 }] },
+            options: { scales: { y: { beginAtZero: true, title: { display: true, text: 'Budget ($)' } } }, plugins: { legend: { display: false } } }
+        });
+
+        // Electric Trend Chart
+        const ctxElectricTrend = document.getElementById('electricTrendChart').getContext('2d');
+        const baseUsage = [318046, 10157661, 2952873, 2933869, 1826580, 1260530, 935160, 875837, 1154040, 1015321];
+        const trendData = baseUsage.map(value => Math.round(value * 1.02));
+        new Chart(ctxElectricTrend, {
+            type: 'bar',
+            data: {
+                labels: ['Apr 2024', 'GF', 'Middle Sch', 'Streetlights', 'Public Works', 'Fire Dept', 'Elementary Sch', 'Gower St Sch', 'Poquonock Sch', 'Library'],
+                datasets: [{ label: 'Electric Usage Year to Date (kWh)', data: trendData, backgroundColor: '#1A3C34', borderColor: '#A2D6C6', borderWidth: 1 }]
+            },
+            options: { scales: { y: { beginAtZero: true, title: { display: true, text: 'Usage (kWh)' } } }, plugins: { legend: { display: false } } }
+        });
+
+        // Gas Trend Chart
+        const ctxGas = document.getElementById('gasTrendChart').getContext('2d');
+        new Chart(ctxGas, {
+            type: 'bar',
+            data: {
+                labels: ['GF', 'SRP', 'TOWNWINDSOR'],
+                datasets: [{ label: 'Gas Usage Year to Date (therms)', data: [16404, 129223, 31453], backgroundColor: '#1A3C34', borderColor: '#A2D6C6', borderWidth: 1 }]
+            },
+            options: { scales: { y: { beginAtZero: true, title: { display: true, text: 'Usage (therms)' } } }, plugins: { legend: { display: false } } }
+        });
+
+        // Interval Data Line Chart
+        const ctxInterval = document.getElementById('intervalChart').getContext('2d');
+        const days = ['May 21', 'May 22', 'May 23', 'May 24', 'May 25', 'May 26', 'May 27'];
+        const energyData = [1000, 1050, 1020, 1100, 1080, 1060, 1030];
+        const minMaxAvg = [
+            { min: 11.0, max: 132.4, avg: 37.1 },
+            { min: 12.0, max: 130.0, avg: 38.0 },
+            { min: 10.0, max: 135.0, avg: 36.5 },
+            { min: 13.0, max: 128.0, avg: 39.0 },
+            { min: 11.5, max: 131.0, avg: 37.5 },
+            { min: 12.5, max: 129.0, avg: 38.5 },
+            { min: 10.5, max: 133.0, avg: 36.0 }
+        ];
+        new Chart(ctxInterval, {
+            type: 'line',
+            data: {
+                labels: days,
+                datasets: [
+                    { label: 'Total Energy (kW)', data: energyData, borderColor: '#1A3C34', fill: false },
+                    { label: 'Min Power (kW)', data: minMaxAvg.map(d => d.min), borderColor: '#A2D6C6', fill: false, borderDash: [5, 5] },
+                    { label: 'Max Power (kW)', data: minMaxAvg.map(d => d.max), borderColor: '#A2D6C6', fill: false, borderDash: [5, 5] },
+                    { label: 'Avg Power (kW)', data: minMaxAvg.map(d => d.avg), borderColor: '#1A3C34', fill: false, borderDash: [10, 5] }
+                ]
+            },
+            options: { scales: { y: { beginAtZero: true, title: { display: true, text: 'Power (kW)' } } }, plugins: { legend: { display: true } } }
         });
     </script>
 </body>
