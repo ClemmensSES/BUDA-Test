@@ -45,8 +45,10 @@
             <li><a href="#" class="nav-link nav-active px-4 py-2 rounded" data-tab="summary">Summary</a></li>
             <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="utility-bills">Utility Bills</a></li>
             <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="interval-data">Interval Data</a></li>
-            <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="contracts">Contracts</a></li>
+            <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="documents">Documents</a></li>
             <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="additional-services">Additional Services</a></li>
+            <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="emissions">Emissions</a></li>
+            <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="rates">Rates</a></li>
         </ul>
     </nav>
 
@@ -200,85 +202,96 @@
         <div id="utility-bills" class="tab-content hidden">
             <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Utility Bills - Lemmens Creative Design Inc.</h2>
             <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Utility Bills Overview This Year to Date</h3>
-                <p class="text-gray-600">Total Bills: 12</p>
-                <p class="text-gray-600">Total Meters: 5</p>
-                <p class="text-gray-600">This Year Bills: 257</p>
-                <div class="mt-4">
-                    <label for="account-select" class="text-ses-dark-green font-semibold">Account Dropdown:</label>
-                    <select id="account-select" class="ml-2 p-2 border rounded" onchange="showAccountDetails()">
-                        <option value="">-- Select Account --</option>
-                        <option value="gf">GF (10,157,661 kilowatt hours)</option>
-                        <option value="middle-sch">Middle School (2,952,873 kilowatt hours)</option>
-                        <option value="streetlights">Public Works - Streetlights (2,933,869 kilowatt hours)</option>
-                        <option value="public-works">Public Works (1,826,580 kilowatt hours)</option>
-                        <option value="fire-dept">Fire Department (1,260,530 kilowatt hours)</option>
-                        <option value="elementary-sch">Elementary School (935,160 kilowatt hours)</option>
-                        <option value="gower-st-sch">Gower Street School (875,837 kilowatt hours)</option>
-                        <option value="poquonock-sch">Poquonock School (1,154,040 kilowatt hours)</option>
-                        <option value="library">Library (1,015,321 kilowatt hours)</option>
-                    </select>
+                <div class="flex space-x-4 mb-4">
+                    <button class="ses-dark-green text-white px-4 py-2 rounded" onclick="showUtilityView('base')">Base View</button>
+                    <button class="ses-dark-green text-white px-4 py-2 rounded" onclick="showUtilityView('advanced')">Advanced View</button>
                 </div>
-                <div id="account-details" class="mt-4 hidden">
-                    <h4 class="text-md font-semibold text-ses-dark-green">Account Usage This Year to Date</h4>
-                    <p id="account-usage" class="text-gray-600"></p>
-                    <div class="flex space-x-4 mt-2">
-                        <button class="ses-dark-green text-white px-4 py-2 rounded flex items-center" onclick="toggleDetails('account-utilization')">
-                            View Utilization This Year to Date
-                            <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <button class="ses-dark-green text-white px-4 py-2 rounded flex items-center" onclick="toggleDetails('account-bills')">
-                            View Bills This Year to Date
-                            <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
+                <!-- Base View -->
+                <div id="utility-base" class="utility-view">
+                    <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Utility Bills Base Overview</h3>
+                    <p class="text-gray-600">Total Bills: 12</p>
+                    <p class="text-gray-600">Total Meters: 5</p>
+                    <p class="text-gray-600">This Year Bills: 257</p>
+                    <div class="mt-4">
+                        <label for="account-select" class="text-ses-dark-green font-semibold">Account Dropdown:</label>
+                        <select id="account-select" class="ml-2 p-2 border rounded" onchange="showAccountDetails()">
+                            <option value="">-- Select Account --</option>
+                            <option value="gf">GF (10,157,661 kilowatt hours)</option>
+                            <option value="middle-sch">Middle School (2,952,873 kilowatt hours)</option>
+                            <option value="streetlights">Public Works - Streetlights (2,933,869 kilowatt hours)</option>
+                            <option value="public-works">Public Works (1,826,580 kilowatt hours)</option>
+                            <option value="fire-dept">Fire Department (1,260,530 kilowatt hours)</option>
+                            <option value="elementary-sch">Elementary School (935,160 kilowatt hours)</option>
+                            <option value="gower-st-sch">Gower Street School (875,837 kilowatt hours)</option>
+                            <option value="poquonock-sch">Poquonock School (1,154,040 kilowatt hours)</option>
+                            <option value="library">Library (1,015,321 kilowatt hours)</option>
+                        </select>
                     </div>
-                    <div id="account-utilization" class="hidden mt-4">
-                        <h5 class="text-sm font-semibold text-ses-dark-green">Utilization Trends This Year to Date</h5>
-                        <p class="text-gray-600">Usage (April 2025): 309,505 kilowatt hours</p>
-                        <p class="text-gray-600">Usage (April 2024): 318,046 kilowatt hours</p>
-                        <p class="text-gray-600">Change: -2.7%</p>
-                        <p class="text-gray-600">Average Daily Usage (April 2025): 9,984 kilowatt hours</p>
-                        <p class="text-gray-600">Average Daily Usage (April 2024): 10,260 kilowatt hours</p>
+                    <div id="account-details" class="mt-4 hidden">
+                        <h4 class="text-md font-semibold text-ses-dark-green">Account Usage This Year to Date</h4>
+                        <p id="account-usage" class="text-gray-600"></p>
+                        <div class="flex space-x-4 mt-2">
+                            <button class="ses-dark-green text-white px-4 py-2 rounded flex items-center" onclick="toggleDetails('account-utilization')">
+                                View Utilization This Year to Date
+                                <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <button class="ses-dark-green text-white px-4 py-2 rounded flex items-center" onclick="toggleDetails('account-bills')">
+                                View Bills This Year to Date
+                                <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 14"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                        </div>
+                        <div id="account-utilization" class="hidden mt-4">
+                            <h5 class="text-sm font-semibold text-ses-dark-green">Utilization Trends This Year to Date</h5>
+                            <p class="text-gray-600">Usage (April 2025): 309,505 kilowatt hours</p>
+                            <p class="text-gray-600">Usage (April 2024): 318,046 kilowatt hours</p>
+                            <p class="text-gray-600">Change: -2.7%</p>
+                            <p class="text-gray-600">Average Daily Usage (April 2025): 9,984 kilowatt hours</p>
+                            <p class="text-gray-600">Average Daily Usage (April 2024): 10,260 kilowatt hours</p>
+                        </div>
+                        <div id="account-bills" class="hidden mt-4">
+                            <h5 class="text-sm font-semibold text-ses-dark-green">Bill Details This Year to Date</h5>
+                            <p class="text-gray-600">Cost (April 2025): $100,000</p>
+                            <p class="text-gray-600">Cost (April 2024): $110,000</p>
+                            <p class="text-gray-600">Change: -9.1%</p>
+                        </div>
                     </div>
-                    <div id="account-bills" class="hidden mt-4">
-                        <h5 class="text-sm font-semibold text-ses-dark-green">Bill Details This Year to Date</h5>
-                        <p class="text-gray-600">Cost (April 2025): $100,000</p>
-                        <p class="text-gray-600">Cost (April 2024): $110,000</p>
-                        <p class="text-gray-600">Change: -9.1%</p>
+                </div>
+                <!-- Advanced View -->
+                <div id="utility-advanced" class="utility-view hidden">
+                    <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Utility Bills Advanced Overview</h3>
+                    <h4 class="text-md font-semibold text-ses-dark-green mt-6">Electric Usage and Cost Trends This Year to Date</h4>
+                    <p class="text-gray-600">Total Usage (2025): 27,235,160 kilowatt hours</p>
+                    <p class="text-gray-600">April 2025 Usage: 309,505 kilowatt hours, Cost: $100,000</p>
+                    <p class="text-gray-600">April 2024 Usage: 318,046 kilowatt hours, Cost: $110,000</p>
+                    <p class="text-gray-600">Usage Change: -2.7%</p>
+                    <div class="bg-white p-4 rounded-lg shadow mt-2 relative">
+                        <canvas id="electricTrendChart" height="100"></canvas>
+                        <div class="whiteout text-center w-full mt-2">Note: 2% increase from 2024-2025</div>
                     </div>
-                </div>
-                <h4 class="text-md font-semibold text-ses-dark-green mt-6">Electric Usage and Cost Trends This Year to Date</h4>
-                <p class="text-gray-600">Total Usage (2025): 27,235,160 kilowatt hours</p>
-                <p class="text-gray-600">April 2025 Usage: 309,505 kilowatt hours, Cost: $100,000</p>
-                <p class="text-gray-600">April 2024 Usage: 318,046 kilowatt hours, Cost: $110,000</p>
-                <p class="text-gray-600">Usage Change: -2.7%</p>
-                <div class="bg-white p-4 rounded-lg shadow mt-2 relative">
-                    <canvas id="electricTrendChart" height="100"></canvas>
-                    <div class="whiteout text-center w-full mt-2">Note: 2% increase from 2024-2025</div>
-                </div>
-                <h4 class="text-md font-semibold text-ses-dark-green mt-6 flex items-center">
-                    Peak Demand Details This Year to Date
-                    <svg class="drilldown-icon text-ses-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </h4>
-                <p class="text-gray-600">Peak Demand (Jan 2025): 894.2 kilowatts</p>
-                <button class="ses-dark-green text-white px-4 py-2 rounded mt-2 flex items-center" onclick="toggleDetails('peak-demand-details')">
-                    View Top Peaks
-                    <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="peak-demand-details" class="hidden mt-4">
-                    <p class="text-gray-600">1st Peak: 910 kilowatts (Mar 2, 2025, 16:50)</p>
-                    <p class="text-gray-600">2nd Peak: 905 kilowatts (Mar 5, 2025, 17:50)</p>
-                    <p class="text-gray-600">3rd Peak: 902 kilowatts (Mar 9, 2025, 17:00)</p>
-                    <p class="text-gray-600">4th Peak: 899 kilowatts (Mar 3, 2025, 17:10)</p>
-                    <p class="text-gray-600">5th Peak: 895 kilowatts (Mar 16, 2025, 17:05)</p>
-                </div>
-                <h4 class="text-md font-semibold text-ses-dark-green mt-6">Gas Usage and Cost Trends This Year to Date</h4>
-                <p class="text-gray-600">Total Usage: 177,080 therms</p>
-                <p class="text-gray-600">Breakdown by Account: GF (16,404 therms), SRP (129,223 therms), TOWNWINDSOR (31,453 therms)</p>
-                <p class="text-gray-600">Estimated Cost: $177,080 (at $1.00/therm, estimate)</p>
-                <div class="bg-white p-4 rounded-lg shadow mt-2 relative">
-                    <canvas id="gasTrendChart" height="100"></canvas>
-                    <div class="whiteout text-center w-full mt-2">Note: Estimated at $1.00/therm</div>
+                    <h4 class="text-md font-semibold text-ses-dark-green mt-6 flex items-center">
+                        Peak Demand Details This Year to Date
+                        <svg class="drilldown-icon text-ses-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </h4>
+                    <p class="text-gray-600">Peak Demand (Jan 2025): 894.2 kilowatts</p>
+                    <button class="ses-dark-green text-white px-4 py-2 rounded mt-2 flex items-center" onclick="toggleDetails('peak-demand-details')">
+                        View Top Peaks
+                        <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="peak-demand-details" class="hidden mt-4">
+                        <p class="text-gray-600">1st Peak: 910 kilowatts (Mar 2, 2025, 16:50)</p>
+                        <p class="text-gray-600">2nd Peak: 905 kilowatts (Mar 5, 2025, 17:50)</p>
+                        <p class="text-gray-600">3rd Peak: 902 kilowatts (Mar 9, 2025, 17:00)</p>
+                        <p class="text-gray-600">4th Peak: 899 kilowatts (Mar 3, 2025, 17:10)</p>
+                        <p class="text-gray-600">5th Peak: 895 kilowatts (Mar 16, 2025, 17:05)</p>
+                    </div>
+                    <h4 class="text-md font-semibold text-ses-dark-green mt-6">Gas Usage and Cost Trends This Year to Date</h4>
+                    <p class="text-gray-600">Total Usage: 177,080 therms</p>
+                    <p class="text-gray-600">Breakdown by Account: GF (16,404 therms), SRP (129,223 therms), TOWNWINDSOR (31,453 therms)</p>
+                    <p class="text-gray-600">Estimated Cost: $177,080 (at $1.00/therm, estimate)</p>
+                    <div class="bg-white p-4 rounded-lg shadow mt-2 relative">
+                        <canvas id="gasTrendChart" height="100"></canvas>
+                        <div class="whiteout text-center w-full mt-2">Note: Estimated at $1.00/therm</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -287,64 +300,75 @@
         <div id="interval-data" class="tab-content hidden">
             <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Interval Data - Lemmens Creative Design Inc.</h2>
             <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Interval Data Overview This Year to Date (Last 7 Days)</h3>
-                <p class="text-gray-600 mb-4">Period: May 21, 2025 - May 27, 2025</p>
-                <p class="text-gray-600 mb-4">Total Energy: 7,240 kilowatts</p>
-                <div class="bg-white p-4 rounded-lg shadow mt-2">
-                    <canvas id="intervalChart" height="100"></canvas>
+                <div class="flex space-x-4 mb-4">
+                    <button class="ses-dark-green text-white px-4 py-2 rounded" onclick="showIntervalView('base')">Base View</button>
+                    <button class="ses-dark-green text-white px-4 py-2 rounded" onclick="showIntervalView('advanced')">Advanced View</button>
                 </div>
-                <div class="mt-6">
-                    <h4 class="text-md font-semibold text-ses-dark-green mb-2">Key Metrics This Year to Date</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <p class="text-gray-600">Min Power: 11.0 kilowatts</p>
-                            <p class="text-gray-600">Max Power: 132.4 kilowatts</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-600">Duration: 168 hours</p>
-                            <p class="text-gray-600">Average Temperature: 69.3 degrees Fahrenheit</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-600">Utilization Change This Year to Date: 5% ↑ vs 2024</p>
+                <!-- Base View -->
+                <div id="interval-base" class="interval-view">
+                    <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Interval Data Base Overview (Last 7 Days)</h3>
+                    <p class="text-gray-600 mb-4">Period: May 21, 2025 - May 27, 2025</p>
+                    <p class="text-gray-600 mb-4">Total Energy: 7,240 kilowatts</p>
+                    <div class="mt-6">
+                        <h4 class="text-md font-semibold text-ses-dark-green mb-2">Key Metrics This Year to Date</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <p class="text-gray-600">Min Power: 11.0 kilowatts</p>
+                                <p class="text-gray-600">Max Power: 132.4 kilowatts</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Duration: 168 hours</p>
+                                <p class="text-gray-600">Average Temperature: 69.3 degrees Fahrenheit</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Utilization Change This Year to Date: 5% ↑ vs 2024</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="mt-6">
-                    <h4 class="text-md font-semibold text-ses-dark-green mb-2 flex items-center">
-                        Usage Breakdown This Year to Date
-                        <svg class="drilldown-icon text-ses-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </h4>
-                    <div class="flex space-x-4">
-                        <button class="ses-dark-green text-white px-4 py-2 rounded flex items-center" onclick="toggleDetails('usage-part-of-day')">
-                            By Part of Day This Year to Date
-                            <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <button class="ses-dark-green text-white px-4 py-2 rounded flex items-center" onclick="toggleDetails('usage-hour-of-day')">
-                            By Hour of Day This Year to Date
-                            <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
+                <!-- Advanced View -->
+                <div id="interval-advanced" class="interval-view hidden">
+                    <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Interval Data Advanced Overview (Last 7 Days)</h3>
+                    <div class="bg-white p-4 rounded-lg shadow mt-2">
+                        <canvas id="intervalChart" height="100"></canvas>
                     </div>
-                    <div id="usage-part-of-day" class="hidden mt-4">
-                        <p class="text-gray-600">Midnight-Fam: 6.6 kilowatts</p>
-                        <p class="text-gray-600">Am-Peak: 49.8 kilowatts</p>
-                        <p class="text-gray-600">Noon-Mid: 35.2 kilowatts</p>
-                        <p class="text-gray-600">Pm-Peak: 45.3 kilowatts</p>
-                    </div>
-                    <div id="usage-hour-of-day" class="hidden mt-4">
-                        <p class="text-gray-600">Hour 00: 6.0 kilowatts</p>
-                        <p class="text-gray-600">Hour 12: 47.0 kilowatts</p>
-                        <p class="text-gray-600">Full hourly data available upon request.</p>
+                    <div class="mt-6">
+                        <h4 class="text-md font-semibold text-ses-dark-green mb-2 flex items-center">
+                            Usage Breakdown This Year to Date
+                            <svg class="drilldown-icon text-ses-dark-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </h4>
+                        <div class="flex space-x-4">
+                            <button class="ses-dark-green text-white px-4 py-2 rounded flex items-center" onclick="toggleDetails('usage-part-of-day')">
+                                By Part of Day This Year to Date
+                                <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <button class="ses-dark-green text-white px-4 py-2 rounded flex items-center" onclick="toggleDetails('usage-hour-of-day')">
+                                By Hour of Day This Year to Date
+                                <svg class="drilldown-icon ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                        </div>
+                        <div id="usage-part-of-day" class="hidden mt-4">
+                            <p class="text-gray-600">Midnight-6am: 6.6 kilowatts</p>
+                            <p class="text-gray-600">6am-Noon: 49.8 kilowatts</p>
+                            <p class="text-gray-600">Noon-6pm: 35.2 kilowatts</p>
+                            <p class="text-gray-600">6pm-Midnight: 45.3 kilowatts</p>
+                        </div>
+                        <div id="usage-hour-of-day" class="hidden mt-4">
+                            <p class="text-gray-600">Hour 00: 6.0 kilowatts</p>
+                            <p class="text-gray-600">Hour 12: 47.0 kilowatts</p>
+                            <p class="text-gray-600">Full hourly data available upon request.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Contracts Tab -->
-        <div id="contracts" class="tab-content hidden">
-            <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Contracts - Lemmens Creative Design Inc.</h2>
+        <!-- Documents Tab -->
+        <div id="documents" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-ses-dark-green mb-6">Documents - Lemmens Creative Design Inc.</h2>
             <div class="bg-white p-6 rounded-lg shadow">
-                <button class="ses-dark-green text-white px-4 py-2 rounded mb-4" onclick="toggleDetails('contracts-details')">Contracts Button</button>
-                <div id="contracts-details" class="hidden">
+                <button class="ses-dark-green text-white px-4 py-2 rounded mb-4" onclick="toggleDetails('documents-details')">Documents Button</button>
+                <div id="documents-details" class="hidden">
                     <div class="bg-gray-200 p-4 rounded-lg mb-4">
                         <h3 class="text-lg font-semibold text-ses-dark-green">SES Headquarters</h3>
                         <p class="text-sm text-gray-600">East Longmeadow, Massachusetts</p>
@@ -587,6 +611,30 @@
                 </div>
             </div>
         </div>
+
+        <!-- Emissions Tab -->
+        <div id="emissions" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-ses-dark-green mb-3">Emissions Data - Lemmens Creative Design Inc.</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-3">Emissions Overview</h3>
+                <p class="text-gray-600 mb-6">Total Emissions This Year to Date: 3,200 tCO2e</p>
+                <div class="bg-white p-4 rounded-lg shadow mt-2">
+                    <canvas id="emissions-chart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rates Tab -->
+        <div id="rates" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-ses-dark-green mb-3">Rates - Lemmens Creative Design Inc.</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-3">Rate Overview</h3>
+                <p class="text-gray-600 mb-6">Average Rate This Year to Date: $0.15/kWh</p>
+                <div class="bg-white p-4 rounded-lg shadow mt-2">
+                    <canvas id="rates-chart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- JavaScript for Tab Switching, Details Toggling, and Charts -->
@@ -630,6 +678,22 @@
             } else {
                 accountDetails.classList.add('hidden');
             }
+        }
+
+        function showUtilityView(view) {
+            const baseView = document.getElementById('utility-base');
+            const advancedView = document.getElementById('utility-advanced');
+            baseView.classList.add('hidden');
+            advancedView.classList.add('hidden');
+            document.getElementById(`utility-${view}`).classList.remove('hidden');
+        }
+
+        function showIntervalView(view) {
+            const baseView = document.getElementById('interval-base');
+            const advancedView = document.getElementById('interval-advanced');
+            baseView.classList.add('hidden');
+            advancedView.classList.add('hidden');
+            document.getElementById(`interval-${view}`).classList.remove('hidden');
         }
 
         document.querySelectorAll('.nav-link').forEach(link => {
@@ -722,6 +786,53 @@
                 ]
             },
             options: { scales: { y: { beginAtZero: true, title: { display: true, text: 'Power (kilowatts)' } } }, plugins: { legend: { display: true } } }
+        });
+
+        // Emissions Chart
+        const ctxEmissions = document.getElementById('emissions-chart').getContext('2d');
+        new Chart(ctxEmissions, {
+            type: 'pie',
+            data: {
+                labels: ['Electricity', 'Gas', 'Other'],
+                datasets: [{
+                    label: 'Emissions (tCO2e)',
+                    data: [2000, 1000, 200],
+                    backgroundColor: ['#1A3C34', '#A2D6C6', '#D3D3D3']
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                }
+            }
+        });
+
+        // Rates Chart
+        const ctxRates = document.getElementById('rates-chart').getContext('2d');
+        new Chart(ctxRates, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                datasets: [{
+                    label: 'Rate ($/kWh)',
+                    data: [0.14, 0.15, 0.15, 0.16, 0.15],
+                    borderColor: '#1A3C34',
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Rate ($/kWh)'
+                        }
+                    }
+                }
+            }
         });
     </script>
 </body>
