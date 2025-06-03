@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client Summary Page - SES BUDA</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .ses-dark-green { background-color: #1A3C34; }
         .ses-light-green { background-color: #A2D6C6; }
         .text-ses-dark-green { color: #1A3C34; }
         .text-ses-light-green { color: #A2D6C6; }
         .nav-active { background-color: #1A3C34; color: white; }
+        .sub-nav-active { background-color: #1A3C34; color: white; }
         .drilldown-icon { width: 16px; height: 16px; margin-left: 4px; }
         .whiteout { position: absolute; background: white; color: white; }
         .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
@@ -21,6 +22,7 @@
         input:checked + .slider { background-color: #1A3C34; }
         input:checked + .slider:before { transform: translateX(20px); }
         input:disabled + .slider { background-color: #e5e7eb; }
+        .chart-container { position: relative; height: 200px; width: 100%; }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -36,6 +38,8 @@
         <div class="flex items-center space-x-4">
             <span class="text-gray-600">Weather: 69.3 degrees Fahrenheit, 65% Humidity</span>
             <button class="ses-dark-green text-white px-4 py-2 rounded">Logout (clemmens)</button>
+            <button class="ses-dark-green text-white px-4 py-2 rounded">Export PDF</button>
+            <button class="ses-light-green text-ses-dark-green px-4 py-2 rounded">Contact SES</button>
         </div>
     </header>
 
@@ -49,6 +53,7 @@
             <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="additional-services">Additional Services</a></li>
             <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="emissions">Emissions</a></li>
             <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="rates">Rates</a></li>
+            <li><a href="#" class="nav-link text-ses-dark-green hover:bg-gray-300 px-4 py-2 rounded" data-tab="recommendations">Recommendations</a></li>
         </ul>
     </nav>
 
@@ -147,7 +152,9 @@
             <!-- Bar Chart: Electric Usage by Department -->
             <div class="bg-white p-6 rounded-lg shadow mb-6">
                 <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Electric Usage by Department This Year (2025)</h3>
-                <canvas id="electricUsageChart" height="100"></canvas>
+                <div class="chart-container">
+                    <canvas id="electricUsageChart" height="100"></canvas>
+                </div>
             </div>
             <!-- Detailed Views for Summary Tab -->
             <div id="costs-details" class="hidden bg-white p-6 rounded-lg shadow mt-4">
@@ -265,7 +272,9 @@
                     <p class="text-gray-600">April 2024 Usage: 318,046 kilowatt hours, Cost: $110,000</p>
                     <p class="text-gray-600">Usage Change: -2.7%</p>
                     <div class="bg-white p-4 rounded-lg shadow mt-2 relative">
-                        <canvas id="electricTrendChart" height="100"></canvas>
+                        <div class="chart-container">
+                            <canvas id="electricTrendChart" height="100"></canvas>
+                        </div>
                         <div class="whiteout text-center w-full mt-2">Note: 2% increase from 2024-2025</div>
                     </div>
                     <h4 class="text-md font-semibold text-ses-dark-green mt-6 flex items-center">
@@ -289,7 +298,9 @@
                     <p class="text-gray-600">Breakdown by Account: GF (16,404 therms), SRP (129,223 therms), TOWNWINDSOR (31,453 therms)</p>
                     <p class="text-gray-600">Estimated Cost: $177,080 (at $1.00/therm, estimate)</p>
                     <div class="bg-white p-4 rounded-lg shadow mt-2 relative">
-                        <canvas id="gasTrendChart" height="100"></canvas>
+                        <div class="chart-container">
+                            <canvas id="gasTrendChart" height="100"></canvas>
+                        </div>
                         <div class="whiteout text-center w-full mt-2">Note: Estimated at $1.00/therm</div>
                     </div>
                 </div>
@@ -330,7 +341,9 @@
                 <div id="interval-advanced" class="interval-view hidden">
                     <h3 class="text-lg font-semibold text-ses-dark-green mb-4">Interval Data Advanced Overview (Last 7 Days)</h3>
                     <div class="bg-white p-4 rounded-lg shadow mt-2">
-                        <canvas id="intervalChart" height="100"></canvas>
+                        <div class="chart-container">
+                            <canvas id="intervalChart" height="100"></canvas>
+                        </div>
                     </div>
                     <div class="mt-6">
                         <h4 class="text-md font-semibold text-ses-dark-green mb-2 flex items-center">
@@ -619,7 +632,9 @@
                 <h3 class="text-lg font-semibold text-ses-dark-green mb-3">Emissions Overview</h3>
                 <p class="text-gray-600 mb-6">Total Emissions This Year to Date: 3,200 tCO2e</p>
                 <div class="bg-white p-4 rounded-lg shadow mt-2">
-                    <canvas id="emissions-chart" height="100"></canvas>
+                    <div class="chart-container">
+                        <canvas id="emissions-chart" height="100"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -631,7 +646,25 @@
                 <h3 class="text-lg font-semibold text-ses-dark-green mb-3">Rate Overview</h3>
                 <p class="text-gray-600 mb-6">Average Rate This Year to Date: $0.15/kWh</p>
                 <div class="bg-white p-4 rounded-lg shadow mt-2">
-                    <canvas id="rates-chart" height="100"></canvas>
+                    <div class="chart-container">
+                        <canvas id="rates-chart" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations Tab -->
+        <div id="recommendations" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-ses-dark-green mb-3">Recommendations - Lemmens Creative Design Inc.</h2>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-ses-dark-green mb-3">Recommendations Overview</h3>
+                <p class="text-gray-600 mb-6">Potential Savings: $150,000/year</p>
+                <div class="bg-white p-4 rounded-lg shadow mt-2">
+                    <ul class="list-disc list-inside">
+                        <li class="text-gray-600">Implement LED lighting retrofit: $50,000 savings/year</li>
+                        <li class="text-gray-600">Optimize HVAC schedules: $75,000 savings/year</li>
+                        <li class="text-gray-600">Install solar panels: $25,000 savings/year</li>
+                    </ul>
                 </div>
             </div>
         </div>
